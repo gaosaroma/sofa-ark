@@ -18,8 +18,14 @@ package com.alipay.sofa.ark.boot.mojo;
 
 import com.alipay.sofa.ark.common.util.StringUtils;
 import com.alipay.sofa.ark.tools.ArtifactItem;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +35,8 @@ import java.util.Set;
 import static java.util.Arrays.asList;
 
 public class MavenUtils {
+    private static MavenXpp3Reader reader = new MavenXpp3Reader();
+
     public static boolean isRootProject(MavenProject project) {
         if (project == null) {
             return true;
@@ -67,6 +75,23 @@ public class MavenUtils {
         }
 
         return artifactItems;
+    }
+
+    public static Model buildPomModel(String filePath) {
+        return buildPomModel(new File(filePath));
+    }
+
+    public static Model buildPomModel(File file) {
+        if (!file.exists()) {
+            throw new RuntimeException("ERROR, MavenUtils:buildPomModel 文件不存在" + file.getPath());
+        }
+
+        try (FileInputStream inputStream = new FileInputStream(file)) {
+            return reader.read(inputStream);
+        } catch (IOException | XmlPullParserException e) {
+            throw new RuntimeException("ERROR, MavenPomUtil:buildPomModel for" + file.getPath()
+                                       + "\nException:" + e);
+        }
     }
 
     private static ArtifactItem getArtifactItem(String lineContent) {
