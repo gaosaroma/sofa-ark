@@ -19,11 +19,8 @@ package com.alipay.sofa.ark.boot.mojo;
 import com.alipay.sofa.ark.tools.ArtifactItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.execution.MavenSession;
-import org.apache.maven.execution.scope.internal.MojoExecutionScope;
 import org.apache.maven.model.Model;
-import org.apache.maven.plugin.BuildPluginManager;
 import org.apache.maven.plugin.InvalidPluginDescriptorException;
-import org.apache.maven.plugin.MavenPluginManager;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -101,22 +98,6 @@ public class BaseDependencyMojo extends TreeMojo {
     @Parameter(defaultValue = "true")
     private String                 cleanAfterPackage;
 
-    // 需要配置artifactId
-
-    public void xxx() throws PluginResolutionException, PluginNotFoundException,
-                     InvalidPluginDescriptorException, PluginDescriptorParsingException,
-                     PluginManagerException, PluginConfigurationException, MojoExecutionException,
-                     MojoFailureException {
-        // 找到相应的 parent 的 original model，读取所有的dependencyManagement
-        getProject().getParent().getOriginalModel();
-
-
-        DependencyListMojo mojo = new DependencyListMojo(this.mavenProject);
-        DependencyStatusSets dss = mojo.getDependencySets();
-
-
-    }
-
     private static class DependencyListMojo extends ListMojo {
         MavenProject mavenProject;
 
@@ -133,38 +114,8 @@ public class BaseDependencyMojo extends TreeMojo {
             return this.mavenProject;
         }
     }
-
-    private static MojoExecution mojoExecution(MojoDescriptor mojoDescriptor, String executionId,
-                                               Xpp3Dom configuration) {
-        if (executionId != null) {
-            return new MojoExecution(mojoDescriptor, executionId);
-        } else {
-            configuration = Xpp3DomUtils.mergeXpp3Dom(configuration,
-                toXpp3Dom(mojoDescriptor.getMojoConfiguration()));
-            return new MojoExecution(mojoDescriptor, configuration);
-        }
-    }
-
-    public static Xpp3Dom toXpp3Dom(PlexusConfiguration config) {
-        Xpp3Dom result = new Xpp3Dom(config.getName());
-        result.setValue(config.getValue(null));
-        for (String name : config.getAttributeNames()) {
-            result.setAttribute(name, config.getAttribute(name));
-        }
-        for (PlexusConfiguration child : config.getChildren()) {
-            result.addChild(toXpp3Dom(child));
-        }
-        return result;
-    }
-
     @Override
     public void execute() throws MojoExecutionException {
-        try {
-            xxx();
-        }catch (Exception e){
-            getLog().error("xxx error", e);
-        }
-
         projectBuildingRequest = this.mavenProject.getProjectBuildingRequest();
         File facadeRootDir = null;
         try {
