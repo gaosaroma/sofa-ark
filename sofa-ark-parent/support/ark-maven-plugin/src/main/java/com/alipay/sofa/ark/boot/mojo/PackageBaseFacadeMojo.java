@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Model;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -50,6 +49,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -169,6 +169,9 @@ public class PackageBaseFacadeMojo extends TreeMojo {
                     pomWriter.write("<groupId>" + i.getGroupId() + "</groupId>\n");
                     pomWriter.write("<artifactId>" + i.getArtifactId() + "</artifactId>\n");
                     pomWriter.write("<version>" + i.getVersion() + "</version>\n");
+                    if(!Objects.equals(i.getType(), "jar")){
+                        pomWriter.write("<type>" + i.getType() + "</type>\n");
+                    }
                     // 排掉所有间接依赖
                     pomWriter.write("<exclusions>\n");
                     pomWriter.write("<exclusion>\n");
@@ -212,31 +215,6 @@ public class PackageBaseFacadeMojo extends TreeMojo {
             pomWriter.write("<source>17</source>\n");
             pomWriter.write("<target>17</target>\n");
             pomWriter.write("</configuration>\n");
-            pomWriter.write("</plugin>\n");
-
-            // kotlin-maven-plugin
-            pomWriter.write("<plugin>\n");
-            pomWriter.write("<groupId>org.jetbrains.kotlin</groupId>\n");
-            pomWriter.write("<artifactId>kotlin-maven-plugin</artifactId>\n");
-            pomWriter.write("<version>1.8.10</version>\n");
-            pomWriter.write("<configuration>\n");
-            pomWriter.write("<jvmTarget>17</jvmTarget>\n");
-            pomWriter.write("</configuration>\n");
-            pomWriter.write("<executions>\n");
-            pomWriter.write("<execution>\n");
-            pomWriter.write("<id>compile</id>\n");
-            pomWriter.write("<phase>process-sources</phase>\n");
-            pomWriter.write("<goals>\n");
-            pomWriter.write("<goal>compile</goal>\n");
-            pomWriter.write("</goals>\n");
-            pomWriter.write("<configuration>\n");
-            pomWriter.write("<sourceDirs>\n");
-            pomWriter.write("<sourceDir>src/main/kotlin</sourceDir>\n");
-            pomWriter.write("<sourceDir>src/main/java</sourceDir>\n");
-            pomWriter.write("</sourceDirs>\n");
-            pomWriter.write("</configuration>\n");
-            pomWriter.write("</execution>\n");
-            pomWriter.write("</executions>\n");
             pomWriter.write("</plugin>\n");
 
             pomWriter.write("</plugins>\n");
