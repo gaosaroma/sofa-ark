@@ -73,6 +73,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -328,9 +329,9 @@ public class ArkClientTest extends BaseTest {
             doThrow(new Exception()).when(biz).stop();
 
             installBiz(bizFile, null);
-            assertTrue(false);
+            fail();
         } catch (Throwable e) {
-            assertTrue(bizManagerServiceMock.getBiz("biz-install-failed-demo").isEmpty());
+            assertFalse(bizManagerServiceMock.getBiz("biz-install-failed-demo").isEmpty());
         } finally {
             setBizFactoryService(bizFactoryService);
             setBizManagerService(bizManagerService);
@@ -343,7 +344,7 @@ public class ArkClientTest extends BaseTest {
             setBizManagerService(bizManagerServiceMock);
 
             installBiz(bizFile, null);
-            assertTrue(false);
+            fail();
         } catch (Throwable e) {
             assertFalse(bizManagerServiceMock.getBiz("biz-install-failed-demo").isEmpty());
             setBizFactoryService(bizFactoryService);
