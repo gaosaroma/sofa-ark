@@ -205,7 +205,7 @@ public class Constants {
     public final static String       AUTO_UNINSTALL_WHEN_FAILED_ENABLE             = "sofa.ark.auto.uninstall.when.failed.enable";
 
     /**
-     *
+     * support multiple version biz as activated
      */
     public final static String       ACTIVATE_MULTI_BIZ_VERSION_ENABLE             = "sofa.ark.activate.multi.biz.version.enable";
 
