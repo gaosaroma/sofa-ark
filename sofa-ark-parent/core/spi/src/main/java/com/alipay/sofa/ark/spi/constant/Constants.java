@@ -205,6 +205,16 @@ public class Constants {
     public final static String       AUTO_UNINSTALL_WHEN_FAILED_ENABLE             = "sofa.ark.auto.uninstall.when.failed.enable";
 
     /**
+     *
+     */
+    public final static String       KEEP_OLD_MODULE_STATE                         = "sofa.ark.keep.old.module.state";
+
+    /**
+     * auto remove the biz instance in BizManagerService if it stops failed
+     */
+    public final static String       REMOVE_BIZ_INSTANCE_AFTER_STOP_FAILED         = "sofa.ark.remove.biz.instance.when.stop.failed.enable";
+
+    /**
      * Command Provider
      */
     public final static String       PLUGIN_COMMAND_UNIQUE_ID                      = "plugin-command-provider";
