@@ -220,16 +220,6 @@ public class Constants {
     public final static String       REMOVE_BIZ_INSTANCE_AFTER_STOP_FAILED         = "sofa.ark.remove.biz.instance.when.stop.failed.enable";
 
     /**
-     * support multiple version biz as activated
-     */
-    public final static String       ACTIVATE_MULTI_BIZ_VERSION_ENABLE             = "sofa.ark.activate.multi.biz.version.enable";
-
-    /**
-     * auto remove the biz instance in BizManagerService if it stops failed
-     */
-    public final static String       REMOVE_BIZ_INSTANCE_AFTER_STOP_FAILED         = "sofa.ark.remove.biz.instance.when.stop.failed.enable";
-
-    /**
      * Command Provider
      */
     public final static String       PLUGIN_COMMAND_UNIQUE_ID                      = "plugin-command-provider";
